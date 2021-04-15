@@ -32,12 +32,16 @@
 </head>
 
 <body>
-    <div id="unicorn-display">
+    <button onclick="startVideo()">Start CAM</button>
+    <div id="unicorn-display" style="position: absolute">
         <div id="updatenote" class="updatenote mt10"> loading model ..</div>
 
 
-        <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
-        <canvas id="canvas" class="border canvasbox"></canvas>
+        <video class="videobox canvasbox" autoplay="autoplay" id="myvideo" style="display: none;"></video>
+        <canvas id="canvas" class="border canvasbox" style="width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: -1;"></canvas>
         <div class="mt10">
             <img src="images/1.jpg" class="canvasbox  hidden" id="handimage" alt="">
 
@@ -50,7 +54,7 @@
         const params = new URLSearchParams(location.search);
         setupGame("Pixel Parachute (Day)", {
             path: "https://cdn.jsdelivr.net/gh/pixelplush",
-            bg: "webcam",
+            bg: "",
             target: "game-parachute/target_original",
             clouds: ["game-parachute/cloud1", "game-parachute/cloud2", "game-parachute/cloud3", "game-parachute/cloud4", "game-parachute/cloud5"],
             parachutes: [
