@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/pixelplush/parachute#readme",
   "dependencies": {
+    "reverse-sourcemap-tool": "^1.0.10",
     "webwebweb": "^1.1.10"
   }
 }

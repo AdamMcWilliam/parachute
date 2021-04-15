@@ -17,8 +17,13 @@
     </script>
     <link rel="stylesheet" href="web/fonts.css" />
     <script src="https://cdn.jsdelivr.net/npm/tinycolor2/dist/tinycolor-min.js"></script>
-    <script src="raw/pinkfluffyunicorn.js"></script>
+<!--    <script src="raw/pinkfluffyunicorn.js"></script>-->
     <script src="web/twemoji-parser.js"></script>
+    <script src="raw/webpack/src/lib/matter.min.js"></script>
+    <script src="raw/webpack/src/lib/comfy.min.js"></script>
+    <script src="raw/webpack/src/lib/pixi-legacy.min.js"></script>
+    <script src="raw/webpack/src/lib/pixi-sound.js"></script>
+    <script src="raw/webpack/src/engine.js"></script>
     <script src="web/parachute.min.js"></script>
 
     <style>
@@ -31,9 +36,14 @@
     </style>
 </head>
 
-<body>
+<body style="overflow-y: hidden; overflow-x: hidden;">
     <button onclick="startVideo()">Start CAM</button>
-    <div id="unicorn-display" style="position: absolute">
+    <div id="unicorn-display" style="position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: hidden;">
+
         <div id="updatenote" class="updatenote mt10"> loading model ..</div>
 
 
@@ -43,8 +53,7 @@
         position: absolute;
         z-index: -1;"></canvas>
         <div class="mt10">
-            <img src="images/1.jpg" class="canvasbox  hidden" id="handimage" alt="">
-
+            <img src="images/1.jpg" class="canvasbox hidden" id="handimage" alt="">
         </div>
     </div>
 
@@ -98,10 +107,10 @@
                 "elf": "elf",
                 "elfgirl": "elfgirl",
             },
-            playable: ["snowman", "elf", "elfgirl"],
+            playable: ["jimmy"],
         }, {
             //channel: params.get( "channel" ),
-            channel: 'zanuss',
+            channel: 'siifr',
             oauth: params.get("oauth"),
             messageFormat: params.get("messageFormat"),
             overlay: params.get("overlay"),
