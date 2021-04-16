@@ -244,9 +244,16 @@ function RemoveDetector(name) {
 
 function AddObject(name, options) {
     try {
-        console.log(name);
-        console.log(options);
+        //console.log(name);
+        //console.log(options);
         // TODO: Check that the object name doesn't already exist
+
+        // if(physics.world.bodies[i]["label"] == "hand"){
+        //     delete physics.world.bodies[i];
+
+        // }
+        ////console.log(physics.world.bodies[3]["label"]);
+
         if (name) {
             if (typeof(name) === "object") {
                 return Object.keys(name).map(x => AddObject(x, name[x]));
@@ -262,7 +269,7 @@ function AddObject(name, options) {
                     break;
                 case "rectangle":
                     body = Matter.Bodies.rectangle(options.x, options.y, options.width, options.height);
-                    console.log(body);
+                    //console.log(body);
                     break;
                     // TODO: Add Custom Polygon Object Support
                 default:
@@ -772,7 +779,6 @@ function createTheUnicorn(element, options) {
         }
         if (botWall) {
             Matter.World.add(physics.world, [Matter.Bodies.rectangle(opts.width / 2, opts.height + 50, opts.width * 2, 100, { isStatic: true })]);
-            loaded = true;
         }
         if (leftWall) {
             Matter.World.add(physics.world, [Matter.Bodies.rectangle(-50, opts.height / 2, 100, opts.height * 2, { isStatic: true })]);

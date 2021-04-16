@@ -199,7 +199,7 @@
         function runDetection() {
             model.detect(video).then((predictions) => {
                 if (predictions.length) {
-                    console.log("Predictions: ", predictions);
+                    //console.log("Predictions: ", predictions);
                 }
                 //model.renderPredictions(predictions, canvas, context, video);
                 model.renderPredictions(predictions, canvas, context, video);
@@ -230,14 +230,25 @@
                         }
 
 
-                        AddObject("hand", handoptions).sprite.visible = 0;
+
+
+                        setTimeout(() => {
+                            AddObject("hand", handoptions).sprite.visible = 0;
+                            //AddObject("hand", handoptions);
+
+                        }, 20);
 
 
                         setTimeout(() => {
                             RemoveObject("hand");
 
-                        }, 10);
+                        }, 5);
 
+
+
+                    } else {
+                        //if no hands on screen remove left over hand collison boxes
+                        RemoveObject("hand");
                     }
 
 
@@ -251,7 +262,7 @@
 
         function runDetectionImage(img) {
             model.detect(img).then((predictions) => {
-                console.log("Predictions: ", predictions);
+                //console.log("Predictions: ", predictions);
                 model.renderPredictions(predictions, canvas, context, img);
             });
         }
@@ -260,7 +271,7 @@
         handTrack.load(modelParams).then((lmodel) => {
             // detect objects in the image.
             model = lmodel;
-            console.log(model);
+            //console.log(model);
             updateNote.innerText = "Loaded Model!";
             startVideo();
             runDetectionImage(handimg);
