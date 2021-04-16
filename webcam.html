@@ -17,7 +17,7 @@
     </script>
     <link rel="stylesheet" href="web/fonts.css" />
     <script src="https://cdn.jsdelivr.net/npm/tinycolor2/dist/tinycolor-min.js"></script>
-<!--    <script src="raw/pinkfluffyunicorn.js"></script>-->
+    <!--    <script src="raw/pinkfluffyunicorn.js"></script>-->
     <script src="web/twemoji-parser.js"></script>
     <script src="raw/webpack/src/lib/matter.min.js"></script>
     <script src="raw/webpack/src/lib/comfy.min.js"></script>
@@ -110,7 +110,7 @@
             playable: ["jimmy"],
         }, {
             //channel: params.get( "channel" ),
-            channel: 'siifr',
+            channel: 'zanuss',
             oauth: params.get("oauth"),
             messageFormat: params.get("messageFormat"),
             overlay: params.get("overlay"),
@@ -140,14 +140,16 @@
         let isVideo = false;
         let model = null;
 
-        // video.width = 500
-        // video.height = 400
+        video.width = 1920;
+        video.height = 1080;
 
         const modelParams = {
             flipHorizontal: true, // flip e.g for video
             maxNumBoxes: 20, // maximum number of boxes to detect
             iouThreshold: 0.5, // ioU threshold for non-max suppression
             scoreThreshold: 0.6, // confidence threshold for predictions.
+            // modelType: "ssd10",
+            // modelSize: "large",
         };
 
         function startVideo() {
@@ -194,12 +196,54 @@
 
         function runDetection() {
             model.detect(video).then((predictions) => {
-                console.log("Predictions: ", predictions);
+                if (predictions.length) {
+                    console.log("Predictions: ", predictions);
+                }
                 model.renderPredictions(predictions, canvas, context, video);
                 if (isVideo) {
                     requestAnimationFrame(runDetection);
+                    //var hand = new PIXI.Graphics();
+                    if (predictions.length) {
+                        //options.x, options.y, options.width, options.height
+                        var pred = predictions[0]['bbox'];
+                        // console.log(pred);
+                        //hand.drawRect(pred[0], pred[1], pred[2], pred[3]);
+
+
+                        var handoptions = {
+                            "type": "rectangle",
+                            "scale": {
+                                "x": 1,
+                                "y": 1
+                            },
+                            "x": predictions[0].bbox[0] + (predictions[0].bbox[2] / 2),
+                            "y": pred[1],
+                            "width": pred[2],
+                            "height": pred[3],
+                            "z": 100,
+                            "gravityX": 0,
+                            "gravityY": 0,
+                            "isStatic": true,
+                        }
+
+
+                        AddObject("hand", handoptions).sprite.visible = 0;
+
+
+                        setTimeout(() => {
+                            RemoveObject("hand");
+
+                        }, 10);
+
+                    }
+
+
+
                 }
             });
+
+
+
         }
 
         function runDetectionImage(img) {
@@ -216,7 +260,7 @@
             console.log(model);
             updateNote.innerText = "Loaded Model!";
             runDetectionImage(handimg);
-            trackButton.disabled = false;
+            //trackButton.disabled = false;
             nextImageButton.disabled = false;
         });
     </script>
