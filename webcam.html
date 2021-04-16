@@ -37,7 +37,7 @@
 </head>
 
 <body style="overflow-y: hidden; overflow-x: hidden;">
-    <button onclick="toggleVideo()">Toggle CAM</button>
+    <button onclick="startVideo()">Start CAM</button>
     <div id="unicorn-display" style="position: absolute;
         width: 100%;
         height: 100%;
@@ -110,7 +110,7 @@
             playable: ["jimmy"],
         }, {
             //channel: params.get( "channel" ),
-            channel: 'siifr',
+            channel: 'zanuss',
             oauth: params.get("oauth"),
             messageFormat: params.get("messageFormat"),
             overlay: params.get("overlay"),
@@ -145,9 +145,9 @@
 
         const modelParams = {
             flipHorizontal: true, // flip e.g for video
-            maxNumBoxes: 2, // maximum number of boxes to detect
+            maxNumBoxes: 20, // maximum number of boxes to detect
             iouThreshold: 0.5, // ioU threshold for non-max suppression
-            scoreThreshold: 0.65, // confidence threshold for predictions.
+            scoreThreshold: 0.6, // confidence threshold for predictions.
             // modelType: "ssd10",
             // modelSize: "large",
         };
@@ -197,7 +197,7 @@
         function runDetection() {
             model.detect(video).then((predictions) => {
                 if (predictions.length) {
-                    // console.log("Predictions: ", predictions);
+                    console.log("Predictions: ", predictions);
                 }
                 model.renderPredictions(predictions, canvas, context, video);
                 if (isVideo) {
@@ -208,46 +208,47 @@
                         var pred = predictions[0]['bbox'];
                         // console.log(pred);
                         //hand.drawRect(pred[0], pred[1], pred[2], pred[3]);
-                        // bounding box = pred[2] / 2 * pred[3] / 2
-                        // const radius = (pred[2] / 2) * (pred[3] / 2) / (Math.PI * 2) ;
-                        console.log(pred[0], pred[1], pred[2], pred[3])
-                        console.log('x:', pred[0] + (pred[2] /2), 'y:', pred[3])
-                            const rectX = pred[0] + (pred[2] / 2);
-                            const radius = pred[3] / 2;
-                            console.log('rectX:', rectX, 'radius:', radius);
+
+
                         var handoptions = {
-                            "type": "circle",
+                            "type": "rectangle",
                             "scale": {
                                 "x": 1,
                                 "y": 1
                             },
-                            "x": rectX/1.35,
-                            "y": pred[1] + (pred[3] / 2) - 40,
-                            // rectangle
-                            // "x": predictions[0].bbox[0] + (predictions[0].bbox[2] / 2),
-                            // "y": pred[1],
-                            "radius": pred[3] / 2,
-                            // "width": pred[2] /2,
-                            // "height": pred[3] /2,
+                            "x": predictions[0].bbox[0] + (predictions[0].bbox[2] / 2),
+                            "y": pred[1],
+                            "width": pred[2],
+                            "height": pred[3],
                             "z": 100,
+                            "gravityX": 0,
+                            "gravityY": 0,
                             "isStatic": true,
                         }
 
+
+                        AddObject("hand", handoptions).sprite.visible = 0;
+
+
                         setTimeout(() => {
-                            AddObject("hand", handoptions).sprite.visible = 1;
-                            setTimeout(() => {
-                                RemoveObject("hand");
-                            }, 17);
-                        }, 5);
-                        // AddObject("hand", handoptions).sprite.visible = 0;
+                            RemoveObject("hand");
+
+                        }, 10);
+
                     }
+
+
+
                 }
             });
+
+
+
         }
 
         function runDetectionImage(img) {
             model.detect(img).then((predictions) => {
-                // console.log("Predictions: ", predictions);
+                console.log("Predictions: ", predictions);
                 model.renderPredictions(predictions, canvas, context, img);
             });
         }
@@ -256,7 +257,7 @@
         handTrack.load(modelParams).then((lmodel) => {
             // detect objects in the image.
             model = lmodel;
-            // console.log(model);
+            console.log(model);
             updateNote.innerText = "Loaded Model!";
             runDetectionImage(handimg);
             //trackButton.disabled = false;
