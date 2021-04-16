@@ -11,6 +11,8 @@
      This Allows webcam source to load (essencially clicking allow webcam for you on the page).
 
  2. Add as a browser source using local host link or file URL
+
+ http://localhost/parachute/index.html?channel=channelname
  
 
 # Libraries used
