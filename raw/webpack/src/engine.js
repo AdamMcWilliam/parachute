@@ -244,8 +244,8 @@ function RemoveDetector(name) {
 
 function AddObject(name, options) {
     try {
-        console.log(name);
-        console.log(options);
+        // console.log(name);
+        // console.log(options);
         // TODO: Check that the object name doesn't already exist
         if (name) {
             if (typeof(name) === "object") {
@@ -262,7 +262,7 @@ function AddObject(name, options) {
                     break;
                 case "rectangle":
                     body = Matter.Bodies.rectangle(options.x, options.y, options.width, options.height);
-                    console.log(body);
+                    // console.log(body);
                     break;
                     // TODO: Add Custom Polygon Object Support
                 default:
