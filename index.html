@@ -267,6 +267,32 @@
             });
         }
 
+
+        document.addEventListener("click", function(e) {
+            console.log("Click");
+
+            var radius = 20;
+
+            var mouseClickOptions = {
+                "type": "circle",
+                "scale": {
+                    "x": 1,
+                    "y": 1
+                },
+                "x": e.clientX + (radius / 2),
+                "y": e.clientY,
+                "radius": radius,
+                "z": 100,
+                "gravityX": 0,
+                "gravityY": 0,
+                "isStatic": true,
+            }
+
+
+
+            AddObject("mouseclick", mouseClickOptions);
+        });
+
         // Load the model.
         handTrack.load(modelParams).then((lmodel) => {
             // detect objects in the image.
