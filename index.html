@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+<style>
+    .mt10 {
+        display: none;
+    }
+</style>
 
 <head>
     <title>Pixel Parachute Drop Game by PixelPlush</title>
@@ -37,14 +42,15 @@
 </head>
 
 <body style="overflow-y: hidden; overflow-x: hidden;">
-    <button onclick="startVideo()">Start CAM</button>
+    <!-- <button onclick="startVideo()">Start CAM</button> -->
+
     <div id="unicorn-display" style="position: absolute;
         width: 100%;
         height: 100%;
         overflow-x: hidden;
         overflow-y: hidden;">
 
-        <div id="updatenote" class="updatenote mt10"> loading model ..</div>
+        <div style="display:none;" id="updatenote" class="updatenote mt10"> loading model ..</div>
 
 
         <video class="videobox canvasbox" autoplay="autoplay" id="myvideo" style="display: none;"></video>
@@ -142,8 +148,8 @@
         let isVideo = false;
         let model = null;
 
-        video.width = 1920;
-        video.height = 1080;
+        video.width = window.innerWidth;
+        video.height = window.innerHeight;
 
         const modelParams = {
             flipHorizontal: true, // flip e.g for video
@@ -268,19 +274,16 @@
         }
 
 
-        document.addEventListener("click", function(e) {
-            console.log("Click");
-
-            var radius = 20;
+        function draw(radius, x, y) {
 
             var mouseClickOptions = {
                 "type": "circle",
                 "scale": {
-                    "x": 1,
-                    "y": 1
+                    "x": 2,
+                    "y": 2
                 },
-                "x": e.clientX + (radius / 2),
-                "y": e.clientY,
+                "x": x,
+                "y": y,
                 "radius": radius,
                 "z": 100,
                 "gravityX": 0,
@@ -288,10 +291,29 @@
                 "isStatic": true,
             }
 
-
-
             AddObject("mouseclick", mouseClickOptions);
-        });
+        }
+
+        document.onmousedown = function(event) {
+
+            function onMouseMove(event) {
+                draw(10, event.pageX, event.pageY);
+            }
+
+            onMouseMove(event);
+
+            document.addEventListener('mousemove', onMouseMove);
+
+            document.onmouseup = function() {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.onmouseup = null;
+            };
+        };
+
+        document.ondragstart = function() {
+            return false;
+        }
+
 
         // Load the model.
         handTrack.load(modelParams).then((lmodel) => {
