@@ -31,6 +31,8 @@
     <script src="raw/webpack/src/engine.js"></script>
     <script src="web/parachute.min.js"></script>
 
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+
     <style>
         * {
             background-color: transparent;
@@ -66,6 +68,25 @@
 
 
     <script>
+        paintBrushSize = 10;
+
+        function brushSize(event) {
+            //event.preventDefault();
+            if (paintBrushSize <= 0) {
+                paintBrushSize = 1;
+            }
+            if (paintBrushSize > 30) {
+                paintBrushSize = 30;
+            }
+
+            paintBrushSize += event.deltaY * -0.01;
+            console.log("Brush size:", paintBrushSize);
+
+
+        }
+
+        document.addEventListener('wheel', brushSize);
+
         const params = new URLSearchParams(location.search);
         setupGame("Pixel Parachute (Day)", {
             path: "https://cdn.jsdelivr.net/gh/pixelplush",
@@ -297,7 +318,7 @@
         document.onmousedown = function(event) {
 
             function onMouseMove(event) {
-                draw(10, event.pageX, event.pageY);
+                draw(paintBrushSize, event.pageX, event.pageY);
             }
 
             onMouseMove(event);
