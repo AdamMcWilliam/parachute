@@ -110,7 +110,7 @@
             playable: ["jimmy"],
         }, {
             //channel: params.get( "channel" ),
-            channel: 'zanuss',
+            channel: params.get("channel"),
             oauth: params.get("oauth"),
             messageFormat: params.get("messageFormat"),
             overlay: params.get("overlay"),
@@ -142,12 +142,12 @@
         let isVideo = false;
         let model = null;
 
-        video.width = 1920;
-        video.height = 1080;
+        video.width = window.innerWidth;
+        video.height = window.innerHeight;
 
         const modelParams = {
             flipHorizontal: true, // flip e.g for video
-            maxNumBoxes: 5, // maximum number of boxes to detect
+            maxNumBoxes: 2, // maximum number of boxes to detect
             iouThreshold: 0.5, // ioU threshold for non-max suppression
             scoreThreshold: 0.6, // confidence threshold for predictions.
             // modelType: "ssd320fpnlite",
@@ -199,7 +199,7 @@
         function runDetection() {
             model.detect(video).then((predictions) => {
                 if (predictions.length) {
-                    console.log("Predictions: ", predictions);
+                    //console.log("Predictions: ", predictions);
                 }
                 //model.renderPredictions(predictions, canvas, context, video);
                 model.renderPredictions(predictions, canvas, context, video);
@@ -211,47 +211,44 @@
                         var pred = predictions[0]['bbox'];
                         // console.log(pred);
                         //hand.drawRect(pred[0], pred[1], pred[2], pred[3]);
-
-
+                        const radius = (Math.PI * (pred[4]) * 2)
+                        console.log(radius)
+                        console.log(pred[0], pred[1], pred[2], pred[3])
                         var handoptions = {
-                            "type": "rectangle",
+                            "type": "circle",
                             "scale": {
                                 "x": 1,
                                 "y": 1
                             },
-                            "x": predictions[0].bbox[0] + (predictions[0].bbox[2] / 2),
-                            "y": pred[1],
-                            "width": pred[2],
-                            "height": pred[3],
+                            "x": pred[0] + (pred[2] / 2),
+                            "y": pred[1] + (pred[3] / 2),
+                            // "width": pred[2],
+                            // "height": pred[3],
+                            "radius": radius,
                             "z": 100,
                             "gravityX": 0,
                             "gravityY": 0,
                             "isStatic": true,
                         }
 
-
-                        AddObject("hand", handoptions).sprite.visible = 0;
-
-
                         setTimeout(() => {
-                            RemoveObject("hand");
-
-                        }, 10);
-
+                            AddObject("hand", handoptions).sprite.visible = 1;
+                            //AddObject("hand", handoptions);
+                            setTimeout(() => {
+                                RemoveObject("hand");
+                            }, 10);
+                        }, 7);
+                    } else {
+                        //if no hands on screen remove left over hand collison boxes
+                        RemoveObject("hand");
                     }
-
-
-
                 }
             });
-
-
-
         }
 
         function runDetectionImage(img) {
             model.detect(img).then((predictions) => {
-                console.log("Predictions: ", predictions);
+                //console.log("Predictions: ", predictions);
                 model.renderPredictions(predictions, canvas, context, img);
             });
         }
@@ -260,7 +257,7 @@
         handTrack.load(modelParams).then((lmodel) => {
             // detect objects in the image.
             model = lmodel;
-            console.log(model);
+            //console.log(model);
             updateNote.innerText = "Loaded Model!";
             startVideo();
             runDetectionImage(handimg);
