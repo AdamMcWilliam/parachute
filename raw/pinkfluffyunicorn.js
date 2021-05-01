@@ -16062,6 +16062,7 @@ function LoadAsset(t, e) {
 function LoadAssetCustom(t, e, i, r) {
     switch (i) {
         case "texture":
+            console.log("texture", PIXI.Texture.from(e, r));
             return assetReference[t] = PIXI.Texture.from(e, r);
         case "sound":
             return assetReference[t] = PIXI.sound.Sound.from(e);
@@ -16273,6 +16274,7 @@ function DisconnectObjects(t, e) {
 }
 
 function AddParticles(t, e, i, r) {
+
     try {
         if (t) {
             let n = setInterval(function() {

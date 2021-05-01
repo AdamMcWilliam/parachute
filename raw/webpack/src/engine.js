@@ -31,6 +31,7 @@ function LoadAsset(name, path) {
         case "jpeg":
         case "gif":
         case "mp4":
+            //console.log("PIXI.Texture.from(path)", PIXI.Texture.from(path));
             return assetReference[name] = PIXI.Texture.from(path);
         case "wav":
         case "mp3":
@@ -66,6 +67,9 @@ function PlaySound(name, options) {
 function AddBacklay(name, assetName, x, y, options) {
     try {
         // TODO: Check that the overlay name doesn't already exist
+
+        console.log("AddBacklay", name, assetName, x, y, options);
+
         if (name) {
             if (typeof(name) === "object") {
                 return Object.keys(name).map(x => AddBacklay(x, name[x].asset, name[x].x, name[x].y, name[x].options));
@@ -73,6 +77,8 @@ function AddBacklay(name, assetName, x, y, options) {
             var sprite = new PIXI.Sprite(
                 assetReference[assetName]
             );
+            console.log("backlay Sprite", sprite);
+            console.log("backlay AssetName", assetName);
             sprite.x = x;
             sprite.y = y;
             groupBacklay.addChild(sprite);
@@ -128,6 +134,10 @@ function RemoveBacklay(name) {
 }
 
 function AddOverlay(name, assetName, x, y, options) {
+
+    console.log("AddOverlay", name, assetName, x, y, options);
+
+
     try {
         // TODO: Check that the overlay name doesn't already exist
         if (name) {
@@ -137,6 +147,11 @@ function AddOverlay(name, assetName, x, y, options) {
             var sprite = new PIXI.Sprite(
                 assetReference[assetName]
             );
+
+
+            console.log("Overlay Sprite", sprite);
+            console.log("Overlay AssetName", assetName);
+
             sprite.x = x;
             sprite.y = y;
             groupOverlay.addChild(sprite);
@@ -467,6 +482,7 @@ function AddObject(name, options) {
             }
             objects[name] = body;
             Matter.World.add(physics.world, [body]);
+            //console.log(name);
             return body;
         }
     } catch (err) {

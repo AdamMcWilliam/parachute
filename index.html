@@ -9,7 +9,7 @@
 <head>
     <title>Pixel Parachute Drop Game by PixelPlush</title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6EJRXTPH3Z"></script>
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-6EJRXTPH3Z"></script> -->
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -31,6 +31,9 @@
     <script src="raw/webpack/src/engine.js"></script>
     <script src="web/parachute.min.js"></script>
 
+    <!-- Js Color picker-->
+    <script src="jscolor.js"></script>
+
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
 
     <style>
@@ -46,6 +49,8 @@
 <body style="overflow-y: hidden; overflow-x: hidden;">
     <!-- <button onclick="startVideo()">Start CAM</button> -->
 
+    <input value="#3399FF80" data-jscolor="{}">
+
     <div id="unicorn-display" style="position: absolute;
         width: 100%;
         height: 100%;
@@ -59,7 +64,8 @@
         <canvas id="canvas" class="border canvasbox" style="width: 100%;
         height: 100%;
         position: absolute;
-        z-index: -1;"></canvas>
+        z-index: -1;">
+    </canvas>
         <div class="mt10">
             <img src="images/1.jpg" class="canvasbox hidden" id="handimage" alt="">
         </div>
@@ -296,6 +302,10 @@
 
 
         function draw(radius, x, y) {
+            //console.log("x", x);
+            //console.log("y", y);
+
+            var color = document.getElementsByClassName("jscolor")[0].dataset.currentColor;
 
             var mouseClickOptions = {
                 "type": "circle",
@@ -310,6 +320,8 @@
                 "gravityX": 0,
                 "gravityY": 0,
                 "isStatic": true,
+                "color": color,
+                "outlineThickness": -1,
             }
 
             AddObject("mouseclick", mouseClickOptions);
