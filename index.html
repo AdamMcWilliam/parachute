@@ -49,13 +49,15 @@
 <body style="overflow-y: hidden; overflow-x: hidden;">
     <!-- <button onclick="startVideo()">Start CAM</button> -->
 
-    <input value="#3399FF80" data-jscolor="{}">
+
 
     <div id="unicorn-display" style="position: absolute;
         width: 100%;
         height: 100%;
         overflow-x: hidden;
         overflow-y: hidden;">
+
+        <input style="position: absolute;" value="#3399FF80" data-jscolor="{}">
 
         <div style="display:none;" id="updatenote" class="updatenote mt10"> loading model ..</div>
 
@@ -86,7 +88,7 @@
             }
 
             paintBrushSize += event.deltaY * -0.01;
-            console.log("Brush size:", paintBrushSize);
+            //console.log("Brush size:", paintBrushSize);
 
 
         }
